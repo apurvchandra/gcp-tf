@@ -2,7 +2,7 @@
 
 This repository **will** provide a modular and scalable Terraform-based implementation of a **Google Cloud Landing Zone**. It follows best practices from the Google Cloud Foundation fast fabric to help organizations bootstrap, organize, and secure their GCP environments.
 
-Note: 
+Note: This is a work in progress and is not yet production-ready. The goal is to provide a comprehensive solution that can be adapted to various organizational needs.
 
 ## 📁 Repository Structure
 
