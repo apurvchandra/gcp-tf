@@ -1,6 +1,6 @@
 # GCP Landing Zone Terraform
 
-This repository **will** provide a modular and scalable Terraform-based implementation of a **Google Cloud Landing Zone**. It follows best practices from the Google Cloud Foundation Toolkit (CFT) to help organizations bootstrap, organize, and secure their GCP environments.
+This repository **will** provide a modular and scalable Terraform-based implementation of a **Google Cloud Landing Zone**. It follows best practices from the Google Cloud Foundation fast fabric to help organizations bootstrap, organize, and secure their GCP environments.
 
 Note: 
 
