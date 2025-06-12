@@ -90,7 +90,7 @@ resource "google_access_context_manager_service_perimeter" "main" {
     ]
 
     dynamic "egress_policies" {
-      for_each = var.egress_resources != null && length(var.egress_resources) > 0 ? [1] : []
+      for_each = try(length(var.egress_resources), 0) > 0 ? [1] : []
       content {
         egress_to {
           resources = var.egress_resources
@@ -105,7 +105,7 @@ resource "google_access_context_manager_service_perimeter" "main" {
     }
 
     dynamic "ingress_policies" {
-      for_each = var.ingress_source_project != null && var.ingress_source_project != "" ? [1] : []
+      for_each = try(length(var.ingress_source_project), 0) > 0 ? [1] : []
       content {
         ingress_from {
           sources {
