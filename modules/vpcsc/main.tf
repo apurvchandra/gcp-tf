@@ -76,27 +76,46 @@ resource "google_access_context_manager_service_perimeter" "main" {
       google_access_context_manager_access_level.member_based.name
     ]
     # Example: Allow egress from perimeter to a specific external project
-    egress_policies {
-      egress_to {
-        resources = var.egress_resources
-        operations {
-          service_name = "*"
+resource "google_access_context_manager_service_perimeter" "main" {
+  parent = "accessPolicies/${google_access_context_manager_access_policy.default.name}"
+  name   = "accessPolicies/${google_access_context_manager_access_policy.default.name}/servicePerimeters/${var.perimeter_name}"
+  title  = var.perimeter_title
+
+  status {
+    resources           = var.restricted_projects
+    restricted_services = var.restricted_services
+    access_levels = [
+      google_access_context_manager_access_level.ip_based.name,
+      google_access_context_manager_access_level.member_based.name
+    ]
+
+    dynamic "egress_policies" {
+      for_each = try(length(var.egress_resources), 0) > 0 ? [1] : []
+      content {
+        egress_to {
+          resources = var.egress_resources
+          operations {
+            service_name = "*"
+          }
         }
-      }
-      egress_from {
-        identity_type = "ANY_IDENTITY"
+        egress_from {
+          identity_type = "ANY_IDENTITY"
+        }
       }
     }
-    # Example: Allow ingress from a specific source project
-    ingress_policies {
-      ingress_from {
-        sources {
-          resource = var.ingress_source_project
+
+    dynamic "ingress_policies" {
+      for_each = try(length(var.ingress_source_project), 0) > 0 ? [1] : []
+      content {
+        ingress_from {
+          sources {
+            resource = var.ingress_source_project
+          }
         }
-      }
-      ingress_to {
-        operations {
-          service_name = "*"
+        ingress_to {
+          operations {
+            service_name = "*"
+          }
         }
       }
     }
