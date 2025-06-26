@@ -1,0 +1,17 @@
+sinks:
+  - name: "org-storage-sink"
+    type: "storage"
+    parent: "organizations/ORG_ID"
+    project: "PRJ_ID"
+    destination: "PRJ_ID-bkt"
+    filter: "severity>=WARNING"
+    description: "Export org-level error logs to Cloud Storage"
+    disabled: false
+    include_children: true
+    bigquery_options: null
+    unique_writer_identity: true
+    exclusions: []
+#      - name: "exclude-debug"
+#        filter: "severity=DEBUG"
+#        description: "Exclude debug logs"
+#        disabled: false
