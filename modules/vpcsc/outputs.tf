@@ -1,19 +1,25 @@
-output "access_policy_id_" {
-  value = google_access_context_manager_access_policy.default.name
+# Outputs for reference
+output "access_policy_id" {
+  description = "The ID of the access policy"
+  value       = google_access_context_manager_access_policy.default.id
 }
 
-output "ip_based_access_level_" {
-  value = google_access_context_manager_access_level.ip_based.name
+output "perimeter_name" {
+  description = "The name of the service perimeter"
+  value       = google_access_context_manager_service_perimeter.main.name
 }
 
-output "member_based_access_level_" {
-  value = google_access_context_manager_access_level.member_based.name
+output "protected_projects" {
+  description = "List of projects protected by the perimeter"
+  value       = local.perimeter_projects
 }
 
-output "service_perimeter_" {
-  value = google_access_context_manager_service_perimeter.main.name
+output "access_levels" {
+  description = "List of access levels applied to the perimeter"
+  value       = local.access_levels
 }
 
-#output "asset_search_sample_" {
-#  value = data.google_cloud_asset_search_all_resources.all_projects.results[0]
-#}
+output "perimeter_projects" {
+  description = "List of projects included in the perimeter"
+  value       = local.perimeter_projects 
+}

@@ -3,12 +3,12 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "~> 5.0"
+      version = "~> 6.40"
     }
   }
   backend "gcs" {
-    bucket = "$PROJECT_TF_BUCKET"
-    prefix = "org-network-test"
+    bucket = "algebraic-ward-263914_tf"
+    prefix = "org-vpcsc-test"
     
   }
 }
