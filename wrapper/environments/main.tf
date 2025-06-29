@@ -4,9 +4,9 @@ module "platform_dev" {
   # Core naming variables 
   team             = "plt"
   environment      = "dev"
-  primary_location = "euwe2"
+  primary_location = "" # location is not mandatory
   description      = "apig" # override happening in yaml file
-  #based on this project id will be plt-dev-prj-euwe2-ts1
+  #based on this project id will be plt-dev-prj-apig
   
   # Organization structure
   folder_id       = var.folder_id
