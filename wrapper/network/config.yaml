@@ -1,0 +1,12 @@
+ncc_hub_name: "apigee-hub"
+ncc_hub_description: "Central hub for Apigee X and hybrid connectivity"
+spoke_name: "apigee-vpc-spoke"
+project_id: ""
+spoke_project_id: ""
+region: "europe-west2"
+
+# Network config
+network_name: "apigee-vpc"
+subnet_name: "apigee-subnet"
+subnet_cidr: "10.10.0.0/24"
+routing_mode: "REGIONAL"

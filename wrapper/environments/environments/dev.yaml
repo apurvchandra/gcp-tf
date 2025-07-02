@@ -1,0 +1,45 @@
+# environments/dev.yaml
+enabled: true
+project:
+  environment: dev
+  team: plt
+  primary_location: ewest
+  description: develop
+  folder_id: "234223542000"  # Optional: override default
+  # project_id: "custom-dev-project-id"  # Optional: override auto-generated ID
+  labels:
+    cost_center: "engineering"
+    owner: "platform-team"
+  additional_apis:
+    - "pubsub.googleapis.com"
+    - "bigquery.googleapis.com"
+
+iam_bindings:
+  "roles/editor":
+    - "group:gcp-developers@domain.co.uk"
+  "roles/viewer":
+    - "group:gcp-billing-admins@domain.co.uk"
+
+service_accounts:
+  api-service:
+    display_name: "Development API Service"
+    description: "Service account for API operations in dev"
+    roles:
+      - "compute.instanceAdmin"
+      - "storage.objectViewer"
+  
+  ci-cd:
+    display_name: "CI/CD Service Account"
+    description: "Service account for CI/CD operations"
+    roles:
+      - "cloudbuild.builds.editor"
+      - "container.developer"
+
+budget:
+  amount: 100
+  currency: "GBP"
+  thresholds: [0.5, 0.8, 0.9, 1.0]
+  notification_channels: []
+  # pubsub_topic: "projects/my-project/topics/budget-alerts"
+
+
