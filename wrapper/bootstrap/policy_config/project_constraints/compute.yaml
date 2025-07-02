@@ -1,9 +1,0 @@
-
-constraints:
-  - name: "compute.requireOsLogin"
-    rules:
-      - enforce: true
-
-  - name: "compute.disableSerialPortAccess"
-    rules:
-      - enforce: true

@@ -1,4 +1,0 @@
-constraints:
-  - name: "iam.disableServiceAccountKeyCreation"
-    rules:
-      - enforce: true
