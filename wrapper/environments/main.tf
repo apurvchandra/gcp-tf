@@ -84,39 +84,37 @@ resource "google_billing_budget" "project_budgets" {
   }
 }
 
+resource "google_monitoring_alert_policy" "project_alerts" {
+  for_each = {
+    for pair in flatten([
+      for env_name, config in local.enabled_environments : [
+        for alert_name, alert in try(config.alerts, {}) : {
+          env_name     = env_name
+          project_id   = module.gcp_projects[env_name].project_ids["${env_name}.yaml"]
+          alert_name   = alert.name
+          alert_config = alert
+        }
+      ]
+    ]) :
+    "${pair.env_name}-${pair.alert_name}" => pair
+  }
 
-## Optional: Create monitoring alerts
-#resource "google_monitoring_alert_policy" "project_alerts" {
-#  for_each = {
-#    for env_name, config in local.enabled_environments :
-#    "${env_name}-${alert_name}" => {
-#      env_name = env_name
-#      project_id = module.gcp_projects[env_name].project_id
-#      alert_name = alert_name
-#      alert_config = alert_config
-#    }
-#    for alert_name, alert_config in try(config.monitoring.alerts, {})
-#  }
-#
-#  project      = each.value.project_id
-#  display_name = each.value.alert_config.display_name
-#  combiner     = try(each.value.alert_config.combiner, "OR")
-#  enabled      = try(each.value.alert_config.enabled, true)
-#
-#  conditions {
-#    display_name = each.value.alert_config.condition.display_name
-#    condition_threshold {
-#      filter          = each.value.alert_config.condition.filter
-#      duration        = try(each.value.alert_config.condition.duration, "300s")
-#      comparison      = try(each.value.alert_config.condition.comparison, "COMPARISON_GREATER_THAN")
-#      threshold_value = try(each.value.alert_config.condition.threshold, 0.8)
-#    }
-#  }
-#
-#  dynamic "notification_channels" {
-#    for_each = try(each.value.alert_config.notification_channels, [])
-#    content {
-#      notification_channels = notification_channels.value
-#    }
-#  }
-#}
+  project      = each.value.project_id
+  display_name = each.value.alert_config.display_name
+  combiner     = try(each.value.alert_config.combiner, "OR")
+  enabled      = try(each.value.alert_config.enabled, true)
+  notification_channels = try(each.value.alert_config.notification_channels, [])
+
+  dynamic "conditions" {
+    for_each = try(each.value.alert_config.conditions, [])
+    content {
+      display_name = conditions.value.display_name
+      condition_threshold {
+        filter          = conditions.value.filter
+        duration        = try(conditions.value.duration, "300s")
+        comparison      = try(conditions.value.comparison, "COMPARISON_GT")
+        threshold_value = try(conditions.value.threshold, 0.8)
+      }
+    }
+  }
+}

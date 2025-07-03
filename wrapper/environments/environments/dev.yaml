@@ -42,4 +42,18 @@ budget:
   notification_channels: []
   # pubsub_topic: "projects/my-project/topics/budget-alerts"
 
+# alert_policy.yaml
+
+alerts:
+  - name: "high_cpu_usage"
+    display_name: "High CPU Usage"
+    enabled: true
+    combiner: "OR"
+    notification_channels: []
+    conditions:
+      - display_name: "CPU > 80%"
+        filter: 'resource.type="gce_instance" AND metric.type="compute.googleapis.com/instance/cpu/utilization"'
+        duration: "300s"
+        comparison: "COMPARISON_GT"
+        threshold: 0.8
 
