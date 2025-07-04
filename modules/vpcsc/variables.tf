@@ -7,13 +7,9 @@ variable "org_id" {
   }  
 }
 
-variable "folder_id" {
+variable "folder_ids" {
   description = "The folder ID to search for projects under"
-  type        = string
-  validation {
-    condition     = can(regex("^[0-9]+$", var.folder_id))
-    error_message = "Folder ID must be a numeric string."
-  }
+  type        = list(string)
 }
 
 variable "access_policy_title" {
@@ -43,6 +39,7 @@ variable "scopes" {
 variable "restricted_projects" {
   description = "List of project resource names to restrict (e.g. projects/1234567890)"
   type        = list(string)
+  
 }
 
 variable "restricted_services" {
@@ -85,4 +82,42 @@ variable "excluded_projects" {
   description = "list of projects to exclude from the perimeter"
   type        = list(string)
   default     = []
+}
+
+variable "egress_policies" {
+  description = "List of egress policy blocks to apply to the perimeter"
+  type = list(object({
+    egress_to = object({
+      resources   = optional(list(string))
+      operations  = optional(list(object({
+        service_name     = string
+        method_selectors = optional(list(object({ method = string })), [])
+      })), [])
+    })
+    egress_from = optional(object({
+      identity_type = string
+      identities    = optional(list(string), [])
+    }), null)
+  }))
+  default = []
+}
+
+variable "ingress_policies" {
+  description = "List of ingress policy blocks to apply to the perimeter"
+  type = list(object({
+    ingress_from = object({
+      sources = list(object({
+        resource     = optional(string)
+        access_level = optional(string)
+      }))
+    })
+    ingress_to = object({
+      resources  = list(string)
+      operations = optional(list(object({
+        service_name     = string
+        method_selectors = optional(list(object({ method = string })), [])
+      })), [])
+    })
+  }))
+  default = []
 }

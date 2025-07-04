@@ -10,7 +10,7 @@ module "org-vpcsc" {
 
   # Required variables - an error will occur if these are not in the YAML file.
   org_id     = local.config.org_id
-  folder_id  = try(local.config.folder_id, null)
+  folder_ids  = try(local.config.folder_ids, null)
 
   # Optional variables - if not in YAML, 'null' or "" is passed,
   # and the child module will use its own default values.
