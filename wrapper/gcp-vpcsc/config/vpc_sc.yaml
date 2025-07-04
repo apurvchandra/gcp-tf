@@ -2,8 +2,8 @@ org_id: "your-organization-id"         # Required: GCP Organization ID (e.g., "1
 access_policy_title: "Custom Policy Title"
 perimeter_name: "custom_perimeter_name"
 perimeter_title: "custom_perimeter_name_title"
-folder_id: ""  #folder under which all the projects will be put in perimeter
-excluded_projects: ["projects/project_id"]
+folder_ids: [""]  #folder under which all the projects will be put in perimeter
+excluded_projects: ["projects/"]
 
 # --- Optional variables (will use defaults from vpcsc module if not specified) ---
 
@@ -22,6 +22,12 @@ allowed_ip_subnets:                   # Optional: Defaults to [""]
    - "34.79.169.228/32"
 #allowed_members:                      # Optional: Defaults to []
 #   - "user:user@domain.co.uk"
-# egress_resources:                     # Optional: Defaults to []
-#   - "projects/external-project-123"
-# ingress_source_project: ""            # Optional: Defaults to "" (e.g. "projects/source-project-for-ingress")
+egress_policies:
+  - egress_to:
+      resources:
+        - "projects/343107750719"
+      operations:
+        - service_name: "*"
+    egress_from:
+      identity_type: "ANY_IDENTITY"
+      identities: []
